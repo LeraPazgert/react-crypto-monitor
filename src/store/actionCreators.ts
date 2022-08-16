@@ -2,8 +2,9 @@ import { AppDispatch } from "./index";
 import axios from "../axios";
 import { ICoin } from "../models/models";
 import { coinSlice } from "./slices/coinSlice";
+import { coinDetailSlice } from "./slices/coinDetailSlice";
 
-export const fetchCoins = (limit=5) => {
+export const fetchCoins = (limit = 10) => {
   return async (dispatch: AppDispatch) => {
     try {
       dispatch(coinSlice.actions.fetching());
@@ -15,6 +16,20 @@ export const fetchCoins = (limit=5) => {
       );
     } catch (e) {
       dispatch(coinSlice.actions.fetchingError(e as Error));
+    }
+  };
+};
+
+export const fetchCoin = (id: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch(coinDetailSlice.actions.coinFetching());
+      const response = await axios.get(`assets/${id}`);
+      dispatch(
+        coinDetailSlice.actions.coinFetchingSuccess(response.data.data)
+      );
+    } catch (e) {
+      dispatch(coinDetailSlice.actions.coinFetchingError(e as Error));
     }
   };
 };

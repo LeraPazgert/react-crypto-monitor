@@ -1,8 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import coinReducer from "./slices/coinSlice";
-
+import coinDetailReducer from "./slices/coinDetailSlice";
 const rootReducer = combineReducers({
-  coin: coinReducer,
+  coins: coinReducer,
+  coinDetail: coinDetailReducer,
 });
 
 export function setupStore() {

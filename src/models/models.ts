@@ -8,5 +8,6 @@ export interface ICoin {
   marketCapUsd: string;
   priceUsd: string;
   vwap24Hr: string;
+  changePercent24Hr: string;
 }
 

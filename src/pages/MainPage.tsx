@@ -1,23 +1,15 @@
 import CoinTable from "../components/coinTable/CoinTable";
 import Header from "../components/header/Header";
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { fetchCoins } from "../store/actionCreators";
-
+import { useAppSelector } from "../hooks/redux";
 
 const MainPage = () => {
-    const dispatch = useAppDispatch();
-    const { coins, loading, error } = useAppSelector(state => state.coin);
-
-    useEffect(() => {
-        dispatch(fetchCoins())
-    }, [dispatch]);
-
-
+    const { loading, error } = useAppSelector((state) => state.coins);
     return (
         <>
+            {loading && <p style={{ textAlign: 'center', fontSize: 'large' }}>Loading...</p>}
+            {error && <p style={{ textAlign: 'center', fontSize: 'large', color:'red' }}>{error}</p>}
             <Header />
-            <CoinTable coins={coins} />
+            <CoinTable />
         </>
     );
 };

@@ -1,0 +1,21 @@
+.detail-page {
+  background-color: black;
+  color: white;
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__info {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap:15px
+  }
+}
+.info-details{
+    &__title{
+        font-size: 25px;
+        margin-bottom: 15px;
+    }
+}

@@ -14,11 +14,11 @@ const initialState: CoinState = {
 };
 
 interface CoinPayload {
-    coins: ICoin[]
-  }
+  coins: ICoin[];
+}
 
 export const coinSlice = createSlice({
-  name: "coin",
+  name: "coins",
   initialState,
   reducers: {
     fetching(state) {

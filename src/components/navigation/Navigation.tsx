@@ -5,7 +5,14 @@ const Navigation = () => {
     return (
         <nav className="navigation">
             <div className="container">
-                <Link className="navigation__main-link" to="/">Crypto Monitor</Link>
+                <div className="navigation__wrapper">
+                <Link className="navigation__title" to="/">Crypto Monitor</Link>
+                <Link  to="/">
+                    <img 
+                    className="navigation__briefcase"
+                    src='images/bag.png' alt='briefcase' />
+                </Link>
+                </div>
             </div>
 
         </nav>
