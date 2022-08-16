@@ -1,6 +1,6 @@
-import './App.css';
+import './App.scss';
 import { Routes, Route } from 'react-router-dom';
-import CoinDetailsPage from './pages/CoinDetailsPage';
+import CoinDetailsPage from './pages/detailsPage/CoinDetailsPage';
 import MainPage from './pages/MainPage';
 import Navigation from './components/navigation/Navigation';
 
@@ -10,7 +10,7 @@ function App() {
       <Navigation />
       <Routes>
         <Route path='/' element={<MainPage />}></Route>
-        <Route path='/:id' element={<CoinDetailsPage />}></Route>
+        <Route path='/assets/:id' element={<CoinDetailsPage />}></Route>
       </Routes>
     </div>
   );
