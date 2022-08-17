@@ -1,21 +1,39 @@
 .detail-page {
   background-color: black;
   color: white;
+  padding-bottom: 40px;
   &__wrapper {
     display: flex;
-    justify-content: space-between;
+    gap:5px;
+    align-items: center;
+   /*  justify-content: space-between; */
   }
   &__info {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     justify-content: flex-start;
-    gap:15px
+    gap:5px;
+    width: 100%;
   }
 }
 .info-details{
     &__title{
-        font-size: 25px;
-        margin-bottom: 15px;
+        font-size: 30px;
+        margin-bottom: 35px;
+        margin-top: 40px;
+        color:crimson;
+        text-align: center;
+    }
+    &__wrapper{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+    &__chart{
+      margin-top: 40px;
+      width: 100%;
+      background-color:rgb(255, 255, 255);
+      box-shadow: inset 0px 0px 10px rgba(0,0,0,0.5);
     }
 }

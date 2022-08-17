@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchCoins } from "../../store/actionCreators";
-import { LineChart } from "react-chartkick";
-import "chartkick/chart.js";
-
 import "./CoinTable.scss";
 import { useNavigate } from "react-router-dom";
+import CoinChart from "../CoinChart/CoinChart";
+
 
 const CoinTable = () => {
   const dispatch = useAppDispatch();
@@ -56,11 +55,7 @@ const CoinTable = () => {
                 {parseFloat(changePercent24Hr).toFixed(2)}%
               </td>
               <td>
-                <LineChart
-                  data={[{ name: "Price", data: priceUsd }]}
-                  width={250 + "px"}
-                  height={120 + "px"}
-                />
+                <CoinChart id={id}/>
               </td>
               <td>
                 <button className="coins-table__button">+</button>

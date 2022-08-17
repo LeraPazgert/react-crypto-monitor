@@ -10,7 +10,8 @@ const Navigation = () => {
                 <Link  to="/">
                     <img 
                     className="navigation__briefcase"
-                    src='images/bag.png' alt='briefcase' />
+                    src="https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/64/000000/external-briefcase-startup-business-xnimrodx-lineal-color-xnimrodx.png"
+                    alt='briefcase'/>
                 </Link>
                 </div>
             </div>

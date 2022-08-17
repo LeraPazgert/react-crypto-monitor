@@ -1,5 +1,5 @@
-import CoinTable from "../components/coinTable/CoinTable";
-import Header from "../components/header/Header";
+import CoinTable from "../components/CoinTable/CoinTable";
+import Header from "../components/Header/Header";
 import { useAppSelector } from "../hooks/redux";
 
 const MainPage = () => {
