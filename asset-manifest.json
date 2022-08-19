@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/react-crypto-monitor/static/css/main.cfbd3642.css",
+    "main.js": "/react-crypto-monitor/static/js/main.ea9c492d.js",
+    "index.html": "/react-crypto-monitor/index.html",
+    "main.cfbd3642.css.map": "/react-crypto-monitor/static/css/main.cfbd3642.css.map",
+    "main.ea9c492d.js.map": "/react-crypto-monitor/static/js/main.ea9c492d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cfbd3642.css",
+    "static/js/main.ea9c492d.js"
+  ]
+}
