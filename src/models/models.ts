@@ -1,5 +1,5 @@
 export interface ICoin {
-  data:[];
+  data: [];
   id: string;
   rank: string;
   symbol: string;
@@ -9,5 +9,12 @@ export interface ICoin {
   priceUsd: string;
   vwap24Hr: string;
   changePercent24Hr: string;
+  quantity: number;
 }
 
+export interface ICoinCart {
+  id: string;
+  symbol: string;
+  quantity: number;
+  price: string;
+}

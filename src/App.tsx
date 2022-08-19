@@ -4,7 +4,9 @@ import CoinDetailsPage from './pages/detailsPage/CoinDetailsPage';
 import MainPage from './pages/MainPage';
 import Navigation from './components/Navigation/Navigation';
 
+
 function App() {
+  
   return (
     <div>
       <Navigation />

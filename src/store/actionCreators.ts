@@ -4,7 +4,8 @@ import { ICoin } from "../models/models";
 import { coinSlice } from "./slices/coinSlice";
 import { coinDetailSlice } from "./slices/coinDetailSlice";
 
-export const fetchCoins = (limit = 10) => {
+
+export const fetchCoins = (limit = 5) => {
   return async (dispatch: AppDispatch) => {
     try {
       dispatch(coinSlice.actions.fetching());
