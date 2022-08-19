@@ -19,7 +19,7 @@ const Header = () => {
                 <div className='header__wrapper'>
                     {popularCoins.map(({ id, symbol, priceUsd, changePercent24Hr }) => (
                         <div key={id} className="item-header header__item">
-                            <img src={`/images/${id}.png`} alt={id} className="item-header__logo" />
+                            <img src={`images/${id}.png`} alt={id} className="item-header__logo" />
                             <div key={id} className="item-header__info">
                                 <span className="item-header__name">{symbol}</span>
                                 <span

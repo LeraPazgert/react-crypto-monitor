@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CoinChart from "../../components/CoinChart/CoinChart";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
@@ -17,13 +17,33 @@ const CoinDetailsPage = () => {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState();
   const params = useParams();
+  const [inputDirty, setInputDirty] = useState(false);
+  const [error, setError] = useState('');
+  const [formValid, setFormValid] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCoin(params.id));
   }, [dispatch, params.id]);
 
-  const onValueChange = (e) => {
-    setQuantity(e.target.value);
+  useEffect(() => {
+    if (error) {
+      setFormValid(false);
+    } else {
+      setFormValid(true);
+    }
+  }, [error]);
+
+  const handleBlur = (e) => {
+    setInputDirty(true);
+    const regex = new RegExp("[a-zA-Z,_:$!%-]");
+    if (regex.test(quantity)) {
+      setError("Invalid value");
+      if (!e.target.value) {
+        setError("Invalid value");
+      }
+    } else {
+      setError("");
+    }
   };
 
   const handleAdd = (e) => {
@@ -116,11 +136,17 @@ const CoinDetailsPage = () => {
               className="modal-content__input"
               id="quantity"
               placeholder="Enter quantity"
-              onChange={onValueChange}
+              onChange={(e) => setQuantity(e.target.value)}
+              onBlur={e => handleBlur(e)}
             />
-            <button type="submit" className="modal-content__btn">
+            <button
+              type="submit"
+              className="modal-content__btn"
+              disabled={!formValid}
+            >
               Add
             </button>
+            {(inputDirty && error) && <div style={{ color: 'red', fontSize: '18px', marginLeft: '20px', marginRight: '10px', marginTop:'30px' }}>{error}</div>}
           </form>
         </div>
       </Modal>
