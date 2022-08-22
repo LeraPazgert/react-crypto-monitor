@@ -23,14 +23,14 @@
     border: none;
     cursor: pointer;
   }
-  &__total{
-    color:white;
+  &__total {
+    color: white;
     font-size: 13px;
   }
 }
 .container {
-  padding-right: 200px;
-  padding-left: 200px;
+  padding-right: 100px;
+  padding-left: 100px;
 }
 .briefcase {
   &__title,
@@ -41,16 +41,16 @@
     margin: auto;
     padding: auto;
   }
-  &__empty{
+  &__empty {
     padding-top: 120px;
   }
-  &__wrapper{
+  &__wrapper {
     margin-top: 30px;
     display: flex;
     justify-content: space-between;
-    align-items:center
+    align-items: center;
   }
-  &__coin{
+  &__coin {
     font-size: 35px;
   }
   &__btn {

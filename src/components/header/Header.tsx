@@ -1,8 +1,7 @@
+import './Header.scss';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchCoins } from '../../store/actionCreators';
-import './Header.scss';
-
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -10,7 +9,7 @@ const Header = () => {
     const popularCoins = coins.slice(0, 3);
 
     useEffect(() => {
-        dispatch(fetchCoins())
+        dispatch(fetchCoins());
     }, [dispatch]);
 
     return (

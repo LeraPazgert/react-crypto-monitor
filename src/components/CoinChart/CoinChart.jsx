@@ -1,6 +1,6 @@
+import "chartkick/chart.js";
 import { useEffect, useState } from "react";
 import { LineChart } from "react-chartkick";
-import "chartkick/chart.js";
 
 function CoinChart({ id, height }) {
   const [coin, setCoin] = useState([]);
@@ -19,7 +19,7 @@ function CoinChart({ id, height }) {
 
   return (
     <>
-      <LineChart data={coin} height={height}/>
+      <LineChart data={coin} height={height} />
     </>
   );
 }

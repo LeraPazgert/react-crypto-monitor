@@ -6,7 +6,7 @@ interface CoinCartState {
 }
 
 const initialState: CoinCartState = {
-  purchasedCoins: JSON.parse(localStorage.getItem('coins') || '[]')
+  purchasedCoins: JSON.parse(localStorage.getItem("coins") || "[]"),
 };
 
 export const coinCartSlice = createSlice({
@@ -15,11 +15,13 @@ export const coinCartSlice = createSlice({
   reducers: {
     coinAdd: (state, action) => {
       state.purchasedCoins?.push(action.payload);
-      localStorage.setItem('coins', JSON.stringify(state.purchasedCoins))
+      localStorage.setItem("coins", JSON.stringify(state.purchasedCoins));
     },
     coinDeleted: (state, action) => {
-      state.purchasedCoins = state.purchasedCoins?.filter((item) => item.id !== action.payload) || [];
-      localStorage.setItem('coins', JSON.stringify(state.purchasedCoins ))
+      state.purchasedCoins =
+        state.purchasedCoins?.filter((item) => item.id !== action.payload) ||
+        [];
+      localStorage.setItem("coins", JSON.stringify(state.purchasedCoins));
     },
   },
 });

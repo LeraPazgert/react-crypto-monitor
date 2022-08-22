@@ -1,7 +1,7 @@
 .header {
   min-height: 350px;
   background-color: rgb(94, 94, 93);
-  border:1px solid gold;
+  border: 1px solid gold;
   margin: auto;
   box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 15px 0 rgba(0, 0, 0, 0.19);
   &__wrapper {
@@ -15,8 +15,8 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap:5px;
-    color:white
+    gap: 5px;
+    color: white;
   }
 }
 .item-header {
@@ -26,15 +26,15 @@
     align-items: center;
     font-weight: normal;
     font-size: 18px;
-    gap:10px
+    gap: 10px;
   }
-  &__price{
+  &__price {
     font-weight: 500;
     font-size: 23px;
   }
-  &__logo{
+  &__logo {
     width: 120px;
     height: 120px;
-   padding-bottom: 20px;
+    padding-bottom: 20px;
   }
 }

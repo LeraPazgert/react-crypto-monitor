@@ -1,10 +1,10 @@
-import  { useEffect, useState } from "react";
+import "./CoinDetailsPage.scss";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CoinChart from "../../components/CoinChart/CoinChart";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchCoin } from "../../store/actionCreators";
 import Modal from "../../components/Modal/Modal";
-import "./CoinDetailsPage.scss";
 import { coinAdd } from "../../store/slices/coinCartSlice";
 import { v4 as uuidv4 } from "uuid";
 
@@ -17,8 +17,7 @@ const CoinDetailsPage = () => {
   const [quantity, setQuantity] = useState("");
   const [price, setPrice] = useState();
   const params = useParams();
-  const [inputDirty, setInputDirty] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [formValid, setFormValid] = useState(false);
 
   useEffect(() => {
@@ -31,18 +30,21 @@ const CoinDetailsPage = () => {
     } else {
       setFormValid(true);
     }
-  }, [error]);
 
-  const handleBlur = (e) => {
-    setInputDirty(true);
+    if (modalActive === false) {
+      setQuantity("");
+      setError("");
+    }
+  }, [error, modalActive]);
+
+  const handleChange = (e) => {
     const regex = new RegExp("[a-zA-Z,_:$!%-]");
-    if (regex.test(quantity)) {
+    if (regex.test(e.target.value) || e.target.value <= 0) {
       setError("Invalid value");
-      if (!e.target.value) {
-        setError("Invalid value");
-      }
+      setQuantity(e.target.value);
     } else {
       setError("");
+      setQuantity(e.target.value);
     }
   };
 
@@ -136,8 +138,7 @@ const CoinDetailsPage = () => {
               className="modal-content__input"
               id="quantity"
               placeholder="Enter quantity"
-              onChange={(e) => setQuantity(e.target.value)}
-              onBlur={e => handleBlur(e)}
+              onChange={handleChange}
             />
             <button
               type="submit"
@@ -146,7 +147,19 @@ const CoinDetailsPage = () => {
             >
               Add
             </button>
-            {(inputDirty && error) && <div style={{ color: 'red', fontSize: '18px', marginLeft: '20px', marginRight: '10px', marginTop:'30px' }}>{error}</div>}
+            {error && (
+              <div
+                style={{
+                  color: "red",
+                  fontSize: "25px",
+                  marginLeft: "20px",
+                  marginRight: "10px",
+                  marginTop: "30px",
+                }}
+              >
+                {error}
+              </div>
+            )}
           </form>
         </div>
       </Modal>

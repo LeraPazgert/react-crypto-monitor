@@ -1,13 +1,12 @@
 .coins-table {
   margin: auto;
-  position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items:center;
+  align-items: center;
   td,
   th {
-    padding: 5px;
+    padding: 25px;
     text-align: center;
   }
   th {
@@ -27,6 +26,7 @@
   }
   &__name {
     cursor: pointer;
+    font-size: 25px;
     &:hover {
       box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2),
         0 6px 15px 0 rgba(0, 0, 0, 0.19);
@@ -34,8 +34,8 @@
     }
   }
   &__button {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     font-size: 30px;
     background-color: gold;
     border-radius: 10%;
@@ -73,14 +73,13 @@
     padding-bottom: 40px;
     text-align: center;
   }
-  &__input{
+  &__input {
     height: 50px;
-    border:none;
+    border: none;
     box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 15px 0 rgba(0, 0, 0, 0.19);
     font-size: 30px;
-   
   }
-  &__btn{
+  &__btn {
     min-width: 80px;
     height: 55px;
     font-size: 35px;

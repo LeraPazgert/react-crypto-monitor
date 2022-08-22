@@ -1,9 +1,8 @@
+import "./CoinTable.scss";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchCoins } from "../../store/actionCreators";
-import "./CoinTable.scss";
 import { useNavigate } from "react-router-dom";
-import CoinChart from "../CoinChart/CoinChart";
 import Modal from "../Modal/Modal";
 import { coinAdd } from "../../store/slices/coinCartSlice";
 import { v4 as uuidv4 } from "uuid";
@@ -11,15 +10,24 @@ import { v4 as uuidv4 } from "uuid";
 const CoinTable = () => {
   const dispatch = useAppDispatch();
   const { coins } = useAppSelector((state) => state.coins);
-  const [limit, setLimit] = useState(5);
+  const [limit, setLimit] = useState(15);
   const [modalActive, setModalActive] = useState(false);
   const [id, setId] = useState("");
   const [symbol, setSymbol] = useState("");
   const [quantity, setQuantity] = useState();
   const [price, setPrice] = useState();
-  const [inputDirty, setInputDirty] = useState(false);
   const [error, setError] = useState("");
   const [formValid, setFormValid] = useState(false);
+
+  const navigate = useNavigate();
+
+  const openCoin = (id) => {
+    navigate(`/assets/${id}`);
+  };
+
+  useEffect(() => {
+    dispatch(fetchCoins(limit));
+  }, [dispatch, limit]);
 
   useEffect(() => {
     if (error) {
@@ -27,18 +35,21 @@ const CoinTable = () => {
     } else {
       setFormValid(true);
     }
-  }, [error]);
 
-  const handleBlur = (e) => {
-    setInputDirty(true);
+    if (modalActive === false) {
+      setQuantity("");
+      setError("");
+    }
+  }, [error, modalActive]);
+
+  const handleChange = (e) => {
     const regex = new RegExp("[a-zA-Z,_:$!%-]");
-    if (regex.test(quantity)) {
+    if (regex.test(e.target.value) || e.target.value <= 0) {
       setError("Invalid value");
-      if (!e.target.value) {
-        setError("Invalid value");
-      }
+      setQuantity(e.target.value);
     } else {
       setError("");
+      setQuantity(e.target.value);
     }
   };
 
@@ -56,15 +67,6 @@ const CoinTable = () => {
     setQuantity("");
     setModalActive(false);
   };
-  const navigate = useNavigate();
-
-  const openCoin = (id) => {
-    navigate(`/assets/${id}`);
-  };
-
-  useEffect(() => {
-    dispatch(fetchCoins(limit));
-  }, [dispatch, limit]);
 
   return (
     <div className="coins-table">
@@ -79,7 +81,7 @@ const CoinTable = () => {
               <th>Coin</th>
               <th>Price (USD)</th>
               <th>24Hr%</th>
-              <th>Chart</th>
+              <th>Add</th>
             </tr>
           </thead>
           <tbody>
@@ -103,9 +105,6 @@ const CoinTable = () => {
                     {parseFloat(changePercent24Hr).toFixed(2)}%
                   </td>
                   <td>
-                    <CoinChart id={id} />
-                  </td>
-                  <td>
                     <button
                       className="coins-table__button"
                       onClick={() => {
@@ -125,7 +124,7 @@ const CoinTable = () => {
         </table>
         <button
           className="more-button coins-table__button"
-          onClick={() => setLimit(limit + 20)}
+          onClick={() => setLimit(limit + 10)}
         >
           More
         </button>
@@ -149,8 +148,7 @@ const CoinTable = () => {
                 className="modal-content__input"
                 id="quantity"
                 placeholder="Enter quantity"
-                onChange={(e) => setQuantity(e.target.value)}
-                onBlur={(e) => handleBlur(e)}
+                onChange={handleChange}
               />
               <button
                 type="submit"
@@ -159,11 +157,11 @@ const CoinTable = () => {
               >
                 Add
               </button>
-              {inputDirty && error && (
+              {error && (
                 <div
                   style={{
                     color: "red",
-                    fontSize: "18px",
+                    fontSize: "25px",
                     marginLeft: "20px",
                     marginRight: "10px",
                     marginTop: "30px",

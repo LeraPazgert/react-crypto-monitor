@@ -7,7 +7,7 @@ const MainPage = () => {
     return (
         <>
             {loading && <p style={{ textAlign: 'center', fontSize: 'large' }}>Loading...</p>}
-            {error && <p style={{ textAlign: 'center', fontSize: 'large', color:'red' }}>{error}</p>}
+            {error && <p style={{ textAlign: 'center', fontSize: 'large', color: 'red' }}>{error}</p>}
             <Header />
             <CoinTable />
         </>

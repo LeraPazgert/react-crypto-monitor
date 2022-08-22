@@ -4,8 +4,7 @@ import { ICoin } from "../models/models";
 import { coinSlice } from "./slices/coinSlice";
 import { coinDetailSlice } from "./slices/coinDetailSlice";
 
-
-export const fetchCoins = (limit = 5) => {
+export const fetchCoins = (limit = 15) => {
   return async (dispatch: AppDispatch) => {
     try {
       dispatch(coinSlice.actions.fetching());
@@ -26,9 +25,7 @@ export const fetchCoin = (id: string) => {
     try {
       dispatch(coinDetailSlice.actions.coinFetching());
       const response = await axios.get(`assets/${id}`);
-      dispatch(
-        coinDetailSlice.actions.coinFetchingSuccess(response.data.data)
-      );
+      dispatch(coinDetailSlice.actions.coinFetchingSuccess(response.data.data));
     } catch (e) {
       dispatch(coinDetailSlice.actions.coinFetchingError(e as Error));
     }
