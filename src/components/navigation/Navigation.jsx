@@ -3,8 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchCoins } from "../../store/actionCreators";
-import { coinDeleted } from "../../store/slices/coinCartSlice";
-import Modal from "../Modal/Modal";
+import CoinCartModal from "../CoinCartModal/CoinCartModal";
 
 const Navigation = () => {
   const dispatch = useAppDispatch();
@@ -34,10 +33,6 @@ const Navigation = () => {
   const diffPercent = total
     ? (((total - totalSpent) / totalSpent) * 100).toFixed(2)
     : "";
-
-  const handleDelete = (id) => {
-    dispatch(coinDeleted(id));
-  };
 
   return (
     <>
@@ -70,34 +65,7 @@ const Navigation = () => {
                 />
               </button>
             </div>
-            <Modal active={modalActive} setActive={setModalActive}>
-              {!purchasedCoins.length ? (
-                <div className="briefcase__empty">Your briefcase is empty</div>
-              ) : (
-                <>
-                  <div className=" briefcase briefcase__title navigation__briefcase">
-                    In your briefcase:
-                  </div>
-                  {purchasedCoins.map(({ id, symbol, quantity }) => (
-                    <div key={id}>
-                      <div>
-                        <div className="briefcase__wrapper">
-                          <div className="briefcase__coin">
-                            {symbol} {quantity}
-                          </div>
-                          <button
-                            onClick={() => handleDelete(id)}
-                            className="briefcase__btn"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </>
-              )}
-            </Modal>
+            <CoinCartModal active={modalActive} setActive={setModalActive}/>
           </div>
         </div>
       </nav>
