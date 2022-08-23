@@ -4,16 +4,17 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchCoins } from "../../store/actionCreators";
 import { useNavigate } from "react-router-dom";
 import CoinAdditionModal from "../CoinAdditionModal/CoinAdditionModal";
+import { ICoin } from "../../models/models";
 
 const CoinTable = () => {
   const dispatch = useAppDispatch();
   const { coins } = useAppSelector((state) => state.coins);
-  const [limit, setLimit] = useState(15);
-  const [selectedCoin, setSelectedCoin] = useState(null);
+  const [limit, setLimit] = useState<number>(15);
+  const [selectedCoin, setSelectedCoin] = useState<string | null | boolean>(null);
 
   const navigate = useNavigate();
 
-  const openCoin = (id) => {
+  const openCoin = (id:string): void => {
     navigate(`/assets/${id}`);
   };
 
@@ -39,7 +40,7 @@ const CoinTable = () => {
           </thead>
           <tbody>
             {coins.map(
-              ({ id, name, rank, priceUsd, changePercent24Hr }) => (
+              ({ id, name, rank, priceUsd, changePercent24Hr }: ICoin) => (
                 <tr key={id}>
                   <td>{rank}</td>
                   <td onClick={() => openCoin(id)}>

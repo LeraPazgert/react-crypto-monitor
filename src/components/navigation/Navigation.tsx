@@ -7,7 +7,7 @@ import CoinCartModal from "../CoinCartModal/CoinCartModal";
 
 const Navigation = () => {
   const dispatch = useAppDispatch();
-  const [modalActive, setModalActive] = useState(false);
+  const [modalActive, setModalActive] = useState<boolean>(false);
   const { purchasedCoins } = useAppSelector((state) => state.coinsCart);
   const { coins } = useAppSelector((state) => state.coins);
 
@@ -15,23 +15,23 @@ const Navigation = () => {
     dispatch(fetchCoins());
   }, [dispatch]);
 
-  const total = useMemo(() => {
+  const total: number = useMemo(() => {
     return purchasedCoins
       .map(
         (item) =>
-          (coins.find((c) => c.symbol === item.symbol)?.priceUsd || 0) *
-          parseInt(item.quantity)
+          +(coins.find((c) => c.symbol === item.symbol)?.priceUsd || 0) *
+          parseInt(`${item.quantity}`)
       )
       .reduce((acc, cur) => acc + cur, 0);
   }, [purchasedCoins, coins]);
 
-  const totalSpent = useMemo(() => {
+  const totalSpent: number = useMemo(() => {
     return purchasedCoins.reduce((acc, cur) => acc + parseInt(cur.price), 0);
   }, [purchasedCoins]);
 
-  const diffUsd = (totalSpent - total).toFixed(2);
-  const diffPercent = total
-    ? (((total - totalSpent) / totalSpent) * 100).toFixed(2)
+  const diffUsd: number = +(totalSpent - total).toFixed(2);
+  const diffPercent: number | '' = total
+    ? +(((total - totalSpent) / totalSpent) * 100).toFixed(2)
     : "";
 
   return (
@@ -65,7 +65,7 @@ const Navigation = () => {
                 />
               </button>
             </div>
-            <CoinCartModal active={modalActive} setActive={setModalActive}/>
+            <CoinCartModal active={modalActive} setActive={setModalActive} />
           </div>
         </div>
       </nav>

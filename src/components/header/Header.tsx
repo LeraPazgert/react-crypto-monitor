@@ -2,6 +2,7 @@ import './Header.scss';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchCoins } from '../../store/actionCreators';
+import { ICoin } from '../../models/models';
 
 const Header = () => {
     const dispatch = useAppDispatch();
@@ -16,7 +17,7 @@ const Header = () => {
         <div className="header">
             <div className='container'>
                 <div className='header__wrapper'>
-                    {popularCoins.map(({ id, symbol, priceUsd, changePercent24Hr }) => (
+                    {popularCoins.map(({ id, symbol, priceUsd, changePercent24Hr }: ICoin) => (
                         <div key={id} className="item-header header__item">
                             <img src={`images/${id}.png`} alt={id} className="item-header__logo" />
                             <div key={id} className="item-header__info">

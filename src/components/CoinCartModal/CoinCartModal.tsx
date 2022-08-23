@@ -3,11 +3,16 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { coinDeleted } from "../../store/slices/coinCartSlice";
 import Modal from "../Modal/Modal";
 
-const CoinCartModal = ({ active, setActive }) => {
+interface CoinCartModalProps {
+  active: boolean
+  setActive:(active: boolean)=>void
+}
+
+const CoinCartModal = ({ active, setActive }: CoinCartModalProps) => {
   const dispatch = useAppDispatch();
   const { purchasedCoins } = useAppSelector((state) => state.coinsCart);
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: string) => {
     dispatch(coinDeleted(id));
   };
   return (

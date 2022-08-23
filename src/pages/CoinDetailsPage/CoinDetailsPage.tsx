@@ -9,12 +9,14 @@ import CoinAdditionModal from "../../components/CoinAdditionModal/CoinAdditionMo
 const CoinDetailsPage = () => {
   const dispatch = useAppDispatch();
   const { coin, loading } = useAppSelector((state) => state.coinDetail);
-  const [modalActive, setModalActive] = useState(false);
-  const params = useParams();
+  const [modalActive, setModalActive] = useState<boolean>(false);
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    dispatch(fetchCoin(params.id));
-  }, [dispatch, params.id]);
+    if (id) {
+      dispatch(fetchCoin(id));
+    }
+  }, [dispatch, id]);
 
   if (loading) return <p>Loading...</p>;
 
@@ -63,11 +65,11 @@ const CoinDetailsPage = () => {
             +
           </button>
         </div>
-        <div className="info-details__chart">
-          <CoinChart id={coin?.id} height={500} />
+        <div className="info-details__chart" style={{width:'100%', height: 500}} >
+          <CoinChart id={coin?.id}/>
         </div>
       </div>
-        <CoinAdditionModal {...coin} active={modalActive} setActive={setModalActive}/>
+      <CoinAdditionModal {...coin} active={modalActive} setActive={setModalActive} />
     </div>
   );
 };

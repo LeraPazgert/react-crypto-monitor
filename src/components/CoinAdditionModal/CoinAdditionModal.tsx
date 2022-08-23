@@ -1,14 +1,22 @@
 import "./CoinAdditionModal.scss";
-import { useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useAppDispatch } from "../../hooks/redux";
 import { coinAdd } from "../../store/slices/coinCartSlice";
 import Modal from "../Modal/Modal";
 
-const CoinAdditionModal = ({ id, symbol, priceUsd, active, setActive }) => {
+interface CoinAdditionModalProps {
+  id?: string
+  symbol?: string
+  priceUsd?: string
+  active: boolean
+  setActive:(active: boolean)=>void
+}
+
+const CoinAdditionModal = ({ id, symbol, priceUsd, active, setActive }: CoinAdditionModalProps) => {
   const dispatch = useAppDispatch();
-  const [quantity, setQuantity] = useState("");
-  const [error, setError] = useState("");
+  const [quantity, setQuantity] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     if (active === false) {
@@ -17,19 +25,19 @@ const CoinAdditionModal = ({ id, symbol, priceUsd, active, setActive }) => {
     }
   }, [error, active]);
 
-  const handleChange = (e) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     const regex = new RegExp("[a-zA-Z,_:$!%-]");
-    if (regex.test(e.target.value) || e.target.value <= 0) {
+    if (regex.test(event.target.value) || +event.target.value <= 0) {
       setError("Invalid value");
-      setQuantity(e.target.value);
+      setQuantity(event.target.value);
     } else {
       setError("");
-      setQuantity(e.target.value);
+      setQuantity(event.target.value);
     }
   };
 
-  const handleAdd = (e) => {
-    e.preventDefault();
+  const handleAdd = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const addedCoin = {
       quantity: quantity,
       id: uuidv4(),
@@ -56,7 +64,7 @@ const CoinAdditionModal = ({ id, symbol, priceUsd, active, setActive }) => {
             placeholder="Enter quantity"
             onChange={handleChange}
           />
-          <button type="submit" className="modal-content__btn" disabled={error}>
+          <button type="submit" className="modal-content__btn" disabled={!!error}>
             Add
           </button>
           {error && (
