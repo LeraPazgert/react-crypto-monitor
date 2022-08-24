@@ -26,10 +26,11 @@ const Navigation = () => {
   }, [purchasedCoins, coins]);
 
   const totalSpent: number = useMemo(() => {
-    return purchasedCoins.reduce((acc, cur) => acc + parseInt(cur.price), 0);
+    return purchasedCoins.reduce((acc, cur) => acc + (+cur.price), 0);
   }, [purchasedCoins]);
 
-  const diffUsd: number = +(totalSpent - total).toFixed(2);
+  const diffUsd: number | '' = total ? +(total - totalSpent).toFixed(2) : '';
+
   const diffPercent: number | '' = total
     ? +(((total - totalSpent) / totalSpent) * 100).toFixed(2)
     : "";
@@ -44,7 +45,9 @@ const Navigation = () => {
             </Link>
             <div className="navigation__total">
               {total.toFixed(2)}USD
-              <span> {diffUsd}</span>
+              <span style={{
+                marginLeft: 5,
+              }}>{diffUsd > 0 ? (`+${diffUsd}`) : diffUsd}</span>
               <span
                 style={{
                   color: diffPercent > 0 ? "rgb(14, 203, 129)" : "red",
