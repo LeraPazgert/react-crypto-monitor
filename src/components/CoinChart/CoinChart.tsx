@@ -17,11 +17,12 @@ function CoinChart({ id }: CoinChartProps) {
   useEffect(() => {
     const fetchHistoryCoins = async () => {
       const res = await fetch(
-        `https://api.coincap.io/v2/assets/${id}/history?interval=d1`
+        `${process.env.REACT_APP_BASE_URL}assets/${id}/history?interval=d1&start=1640995200000&end=1661299200000`
       );
       const data = await res.json() as ChartData;
       setCoin(data.data.map((item) => ({
         ...item,
+        priceUsd: Number(item.priceUsd).toFixed(2),
         time: new Date(item.time).toDateString()
       })))
     };
@@ -34,7 +35,7 @@ function CoinChart({ id }: CoinChartProps) {
       <LineChart data={coin}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey='time' />
-        <YAxis />
+        <YAxis dataKey="priceUsd" />
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="priceUsd" stroke="#8884d8" />
