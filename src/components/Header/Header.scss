@@ -1,0 +1,41 @@
+.header {
+  min-height: 350px;
+  background-color: rgb(94, 94, 93);
+  border: 1px solid gold;
+  margin: auto;
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 15px 0 rgba(0, 0, 0, 0.19);
+  /* background-image: url('images/fon-21.jpg'); */
+  &__wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 80px;
+  }
+  &__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    color: white;
+  }
+}
+.item-header {
+  &__info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: normal;
+    font-size: 18px;
+    gap: 10px;
+  }
+  &__price {
+    font-weight: 500;
+    font-size: 23px;
+  }
+  &__logo {
+    width: 120px;
+    height: 120px;
+    padding-bottom: 20px;
+  }
+}
