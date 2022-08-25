@@ -1,5 +1,5 @@
 import "./CoinAdditionModal.scss";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useAppDispatch } from "../../hooks/redux";
 import { coinAdd } from "../../store/slices/coinCartSlice";
@@ -10,7 +10,7 @@ interface CoinAdditionModalProps {
   symbol?: string
   priceUsd?: string
   active: boolean
-  setActive:(active: boolean)=>void
+  setActive: (active: boolean) => void
 }
 
 const CoinAdditionModal = ({ id, symbol, priceUsd, active, setActive }: CoinAdditionModalProps) => {
@@ -25,7 +25,7 @@ const CoinAdditionModal = ({ id, symbol, priceUsd, active, setActive }: CoinAddi
     }
   }, [error, active]);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
     const regex = new RegExp("[a-zA-Z,_:$!%-]");
     if (regex.test(event.target.value) || +event.target.value <= 0) {
       setError("Invalid value");
@@ -34,7 +34,7 @@ const CoinAdditionModal = ({ id, symbol, priceUsd, active, setActive }: CoinAddi
       setError("");
       setQuantity(event.target.value);
     }
-  };
+  }, [setQuantity, setError]);
 
   const handleAdd = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -46,9 +46,9 @@ const CoinAdditionModal = ({ id, symbol, priceUsd, active, setActive }: CoinAddi
       price: Number(quantity) * Number(priceUsd),
     };
     dispatch(coinAdd(addedCoin));
-    setQuantity("");
     setActive(false);
   };
+
   return (
     <Modal active={active} setActive={setActive}>
       <div className="modal-content">

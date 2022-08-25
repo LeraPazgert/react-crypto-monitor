@@ -1,10 +1,10 @@
 import "./CoinTable.scss";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchCoins } from "../../store/actionCreators";
-import { useNavigate } from "react-router-dom";
 import CoinAdditionModal from "../CoinAdditionModal/CoinAdditionModal";
 import { ICoin } from "../../models/models";
+import TableRow from "../TableRow/TableRow";
 
 const CoinTable = () => {
   const dispatch = useAppDispatch();
@@ -12,15 +12,13 @@ const CoinTable = () => {
   const [limit, setLimit] = useState<number>(15);
   const [selectedCoin, setSelectedCoin] = useState<string | null | boolean>(null);
 
-  const navigate = useNavigate();
-
-  const openCoin = (id:string): void => {
-    navigate(`/assets/${id}`);
-  };
-
   useEffect(() => {
     dispatch(fetchCoins(limit));
   }, [dispatch, limit]);
+
+  const loadMore = useCallback(() => {
+    setLimit(l => l + 10)
+  }, [setLimit])
 
   return (
     <div className="coins-table">
@@ -40,50 +38,23 @@ const CoinTable = () => {
           </thead>
           <tbody>
             {coins.map(
-              ({ id, name, rank, priceUsd, changePercent24Hr }: ICoin) => (
-                <tr key={id}>
-                  <td>{rank}</td>
-                  <td onClick={() => openCoin(id)}>
-                    <span className="coins-table__name">{name}</span>
-                  </td>
-                  <td>${parseFloat(priceUsd).toFixed(2)}</td>
-                  <td
-                    style={{
-                      color:
-                        parseFloat(changePercent24Hr) > 0
-                          ? "rgb(14, 203, 129)"
-                          : "red",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {parseFloat(changePercent24Hr).toFixed(2)}%
-                  </td>
-                  <td>
-                    <button
-                      className="coins-table__button"
-                      onClick={() => {
-                        setSelectedCoin(id);
-                      }}
-                    >
-                      +
-                    </button>
-                  </td>
-                </tr>
+              (item: ICoin) => (
+                <TableRow key={item.id} item={item} setSelectedCoin={setSelectedCoin} />
               )
             )}
           </tbody>
         </table>
         <button
           className="more-button coins-table__button"
-          onClick={() => setLimit(limit + 10)}
+          onClick={loadMore}
         >
           More
         </button>
-        <CoinAdditionModal
+        {!!selectedCoin && <CoinAdditionModal
           {...coins.find((c) => c.id === selectedCoin)}
           active={!!selectedCoin}
           setActive={setSelectedCoin}
-        />
+        />}
       </div>
     </div>
   );

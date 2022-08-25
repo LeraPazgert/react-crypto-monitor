@@ -1,20 +1,16 @@
 import "./CoinCartModal.scss";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { coinDeleted } from "../../store/slices/coinCartSlice";
 import Modal from "../Modal/Modal";
+import CoinCartItem from "../CoinCartItem/CoinCartItem";
+import { useAppSelector } from "../../hooks/redux";
 
 interface CoinCartModalProps {
   active: boolean
-  setActive:(active: boolean)=>void
+  setActive: (active: boolean) => void
 }
 
 const CoinCartModal = ({ active, setActive }: CoinCartModalProps) => {
-  const dispatch = useAppDispatch();
   const { purchasedCoins } = useAppSelector((state) => state.coinsCart);
 
-  const handleDelete = (id: string) => {
-    dispatch(coinDeleted(id));
-  };
   return (
     <Modal active={active} setActive={setActive}>
       {!purchasedCoins.length ? (
@@ -24,21 +20,9 @@ const CoinCartModal = ({ active, setActive }: CoinCartModalProps) => {
           <div className=" briefcase briefcase__title navigation__briefcase">
             In your briefcase:
           </div>
-          {purchasedCoins.map(({ id, symbol, quantity }) => (
-            <div key={id}>
-              <div>
-                <div className="briefcase__wrapper">
-                  <div className="briefcase__coin">
-                    {symbol} {quantity}
-                  </div>
-                  <button
-                    onClick={() => handleDelete(id)}
-                    className="briefcase__btn"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
+          {purchasedCoins.map((item) => (
+            <div key={item.id}>
+              <CoinCartItem coin={item} />
             </div>
           ))}
         </>

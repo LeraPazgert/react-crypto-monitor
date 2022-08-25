@@ -1,5 +1,5 @@
 import "./Navigation.scss";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchCoins } from "../../store/actionCreators";
@@ -29,11 +29,17 @@ const Navigation = () => {
     return purchasedCoins.reduce((acc, cur) => acc + (+cur.price), 0);
   }, [purchasedCoins]);
 
-  const diffUsd: number | '' = total ? +(total - totalSpent).toFixed(2) : '';
+  const diffUsd: number | '' = useMemo(() => {
+    return total ? +(total - totalSpent).toFixed(2) : '';
+  }, [total, totalSpent]);
 
-  const diffPercent: number | '' = total
-    ? +(((total - totalSpent) / totalSpent) * 100).toFixed(2)
-    : "";
+  const diffPercent: number | '' = useMemo(() => {
+    return total
+      ? +(((total - totalSpent) / totalSpent) * 100).toFixed(2)
+      : "";
+  }, [total, totalSpent]);
+
+  const activeModal = useCallback(() => setModalActive(true), [setModalActive]);
 
   return (
     <>
@@ -58,7 +64,7 @@ const Navigation = () => {
                 ({diffPercent}%)
               </span>
               <button
-                onClick={() => setModalActive(true)}
+                onClick={activeModal}
                 className="navigation__button"
               >
                 <img
@@ -68,7 +74,7 @@ const Navigation = () => {
                 />
               </button>
             </div>
-            <CoinCartModal active={modalActive} setActive={setModalActive} />
+            {modalActive && <CoinCartModal active={modalActive} setActive={setModalActive} />}
           </div>
         </div>
       </nav>

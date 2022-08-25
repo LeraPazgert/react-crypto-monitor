@@ -21,9 +21,8 @@ const Header = () => {
                         <div key={id} className="item-header header__item">
                             <img src={`images/${id}.png`} alt={id} className="item-header__logo" />
                             <div key={id} className="item-header__info">
-                                <span className="item-header__name">{symbol}</span>
+                                <span>{symbol}</span>
                                 <span
-                                    className="item-header__change"
                                     style={{
                                         color: parseFloat(changePercent24Hr) > 0 ? "rgb(14, 203, 129)" : "red",
                                         fontWeight: 500,

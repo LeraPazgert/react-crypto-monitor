@@ -1,5 +1,5 @@
 import "./CoinDetailsPage.scss";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CoinChart from "../../components/CoinChart/CoinChart";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
@@ -17,6 +17,12 @@ const CoinDetailsPage = () => {
       dispatch(fetchCoin(id));
     }
   }, [dispatch, id]);
+
+  const activeModal = useCallback(() => {
+    setModalActive(true);
+  }, [setModalActive]);
+
+  const changePercent24Hr = coin?.changePercent24Hr;
 
   if (loading) return <p>Loading...</p>;
 
@@ -46,30 +52,28 @@ const CoinDetailsPage = () => {
             <span
               style={{
                 color:
-                  Number(coin?.changePercent24Hr) > 0
+                  Number(changePercent24Hr) > 0
                     ? "rgb(14, 203, 129)"
                     : "red",
                 fontWeight: 500,
                 marginLeft: 100,
               }}
             >
-              {coin?.changePercent24Hr.slice(0, 5)} %
+              {changePercent24Hr?.slice(0, 5)} %
             </span>{" "}
           </div>
           <button
             className="info-details__btn"
-            onClick={() => {
-              setModalActive(true);
-            }}
+            onClick={activeModal}
           >
             +
           </button>
         </div>
-        <div className="info-details__chart" style={{width:'100%', height: 500}} >
-          <CoinChart id={coin?.id}/>
+        <div className="info-details__chart" style={{ width: '100%', height: 500 }} >
+          <CoinChart id={coin?.id} />
         </div>
       </div>
-      <CoinAdditionModal {...coin} active={modalActive} setActive={setModalActive} />
+      {modalActive && <CoinAdditionModal {...coin} active={modalActive} setActive={setModalActive} />}
     </div>
   );
 };
