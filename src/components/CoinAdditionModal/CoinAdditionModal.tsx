@@ -9,17 +9,18 @@ interface CoinAdditionModalProps {
   id?: string
   symbol?: string
   priceUsd?: string
+  name?: string
   active: boolean
   setActive: (active: boolean) => void
 }
 
-const CoinAdditionModal = ({ id, symbol, priceUsd, active, setActive }: CoinAdditionModalProps) => {
+const CoinAdditionModal = ({ id, symbol, name, priceUsd, active, setActive }: CoinAdditionModalProps) => {
   const dispatch = useAppDispatch();
   const [quantity, setQuantity] = useState<string>("");
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    if (active === false) {
+    if (!active) {
       setQuantity("");
       setError("");
     }
@@ -41,7 +42,7 @@ const CoinAdditionModal = ({ id, symbol, priceUsd, active, setActive }: CoinAddi
     const addedCoin = {
       quantity: quantity,
       id: uuidv4(),
-      name: id,
+      name: name,
       symbol: symbol,
       price: Number(quantity) * Number(priceUsd),
     };

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchCoins } from "../../store/actionCreators";
 import CoinCartModal from "../CoinCartModal/CoinCartModal";
+import { Tooltip } from "@mui/material";
 
 const Navigation = () => {
   const dispatch = useAppDispatch();
@@ -63,16 +64,19 @@ const Navigation = () => {
               >
                 ({diffPercent}%)
               </span>
-              <button
-                onClick={activeModal}
-                className="navigation__button"
-              >
-                <img
-                  className="navigation__briefcase-image"
-                  src="https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/64/000000/external-briefcase-startup-business-xnimrodx-lineal-color-xnimrodx.png"
-                  alt="briefcase"
-                />
-              </button>
+              <Tooltip title='Your briefcase' arrow>
+                <button
+                  onClick={activeModal}
+                  className="navigation__button"
+                >
+                  <img
+                    className="navigation__briefcase-image"
+                    src="https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/64/000000/external-briefcase-startup-business-xnimrodx-lineal-color-xnimrodx.png"
+                    alt="briefcase"
+                  />
+                </button>
+              </Tooltip>
+
             </div>
             {modalActive && <CoinCartModal active={modalActive} setActive={setModalActive} />}
           </div>

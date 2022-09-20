@@ -12,8 +12,12 @@
   pointer-events: none;
   transition: 0.5s;
   &__content {
-    min-width: 800px;
+    min-width: 1000px;
     min-height: 300px;
+    max-height: 700px;
+    overflow: scroll;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
     padding: 20px;
     border-radius: 12px;
     background-color: white;

@@ -5,6 +5,7 @@ import CoinChart from "../../components/CoinChart/CoinChart";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { fetchCoin } from "../../store/actionCreators";
 import CoinAdditionModal from "../../components/CoinAdditionModal/CoinAdditionModal";
+import { Tooltip } from "@mui/material";
 
 const CoinDetailsPage = () => {
   const dispatch = useAppDispatch();
@@ -62,12 +63,15 @@ const CoinDetailsPage = () => {
               {changePercent24Hr?.slice(0, 5)} %
             </span>{" "}
           </div>
-          <button
-            className="info-details__btn"
-            onClick={activeModal}
-          >
-            +
-          </button>
+          <Tooltip title='Add to briefcase' arrow>
+            <button
+              className="info-details__btn"
+              onClick={activeModal}
+            >
+              +
+            </button>
+          </Tooltip>
+
         </div>
         <div className="info-details__chart" style={{ width: '100%', height: 500 }} >
           <CoinChart id={coin?.id} />
