@@ -14,8 +14,8 @@ interface CoinCartModalProps {
 const CoinCartModal = ({ active, setActive }: CoinCartModalProps) => {
   const { purchasedCoins } = useAppSelector(state => state.coinsCart);
   const [searchText, setSearchText] = useState<string>("");
-  
-  const filteredData = purchasedCoins.filter((el:any) => {
+
+  const filteredData = purchasedCoins.filter((el: any) => {
     if (searchText === '' || searchText.length < 3) {
       return el;
     }
