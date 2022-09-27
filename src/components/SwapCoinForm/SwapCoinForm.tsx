@@ -1,12 +1,14 @@
 import "./SwapCoinForm.scss";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import Box from '@mui/material/Box';
 import { ChangeEvent, FormEvent } from "react";
-import TextField from "@mui/material/TextField";
-import Button from '@mui/material/Button';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Button from '@mui/material/Button';
+import FormControl from '@mui/material/FormControl';
 import { ICoinCart } from "../../models/models";
 import { useAppDispatch } from "../../hooks/redux";
 import { coinSwap, coinPos } from "../../store/slices/coinCartSlice";
@@ -17,25 +19,26 @@ interface SwapCoinFormProps {
 
 const SwapCoinForm = ({ purchasedCoins }: SwapCoinFormProps) => {
     const dispatch = useAppDispatch();
-    const [amount, setAmount] = useState<number>(0);
-    const [swap, setSwap] = useState({
-        from: '',
-        to: '',
-    });
+    const [amount, setAmount] = useState<number | string>('');
+    const inputsName = { from: '', to: '' }
+    const [swap, setSwap] = useState(inputsName);
     const [error, setError] = useState<string>("");
 
     const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
         setSwap(prev => ({ ...prev, [event.target.name]: event.target.value }))
     };
 
+    const availableQuantity =
+        purchasedCoins
+            .filter(item => item.symbol === swap.from)[0]?.quantity || 0;
+
     const handleChangeAmount = (event: ChangeEvent<HTMLInputElement>) => {
-        const regex = new RegExp("[a-zA-Z,_:$!%-]");
-        if (regex.test(event.target.value) || +event.target.value <= 0) {
+        setAmount(Number(event.target.value));
+        const regex = new RegExp("[a-zA-Z,_:$!%-,]");
+        if (regex.test(event.target.value) || +event.target.value <= 0 || (availableQuantity < Number(event.target.value))) {
             setError("Invalid value");
-            setAmount(+event.target.value);
         } else {
             setError("");
-            setAmount(+event.target.value);
         }
     };
 
@@ -45,20 +48,34 @@ const SwapCoinForm = ({ purchasedCoins }: SwapCoinFormProps) => {
         const fromCoins =
             purchasedCoins
                 .filter(item => item.symbol === swap.from)
-                .map(item => ({ ...item, quantity: +item.quantity - amount }))
+                .map(item => {
+                    const decreasedQuantity = +item.quantity - +amount;
+                    return {
+                        ...item,
+                        quantity: decreasedQuantity,
+                        price: decreasedQuantity * +item.priceUsd
+                    }
+                })
 
         const toCoins =
             purchasedCoins
                 .filter(item => item.symbol === swap.to)
-                .map(item => ({ ...item, quantity: +item.quantity + amount }))
+                .map(item => {
+                    const increasedQuantity = ((+(purchasedCoins.find(c => c.symbol === swap.from)?.priceUsd || 0) * +amount) / +item.priceUsd) + +item.quantity
+                    return {
+                        ...item,
+                        quantity: increasedQuantity,
+                        price: increasedQuantity * +item.priceUsd
+                    }
 
-        const swapped = fromCoins.concat(toCoins)
+                })
+
+        const swapped = fromCoins.concat(toCoins);
         dispatch(coinSwap(swapped));
         dispatch(coinPos())
-        setSwap({
-            from: '',
-            to: ''
-        })
+        setSwap(inputsName);
+        setAmount('');
+
     };
 
     return (
@@ -71,7 +88,11 @@ const SwapCoinForm = ({ purchasedCoins }: SwapCoinFormProps) => {
                 >
                     <h1>Swap your crypto</h1>
                 </AccordionSummary>
-                <form onSubmit={handleSwap}>
+                <Box
+                    component="form"
+                    autoComplete="off"
+                    onSubmit={handleSwap}
+                >
                     <AccordionDetails>
                         <span className="input-label">From</span>
                         <select
@@ -80,7 +101,7 @@ const SwapCoinForm = ({ purchasedCoins }: SwapCoinFormProps) => {
                             value={swap.from}
                             onChange={handleChange}
                         >
-                            <option value="" disabled >BTC</option>
+                            <option value="" disabled ></option>
                             {purchasedCoins.map(t => <option key={t.id}>{t.symbol}</option>)}
                         </select>
                         <span className="input-label">To</span>
@@ -90,37 +111,29 @@ const SwapCoinForm = ({ purchasedCoins }: SwapCoinFormProps) => {
                             value={swap.to}
                             onChange={handleChange}
                         >
-                            <option value="" disabled >EUT</option>
+                            <option value="" disabled ></option>
                             {purchasedCoins.map(t => <option key={t.id}>{t.symbol}</option>)}
                         </select>
                         <span className="input-label">Amount</span>
-                        <TextField
-                            id="outlined-basic"
-                            fullWidth
-                            variant="outlined"
-                            name='amount'
-                            required
-                            onChange={handleChangeAmount}
-                            style={{ backgroundColor: 'white', border: '1px solid rgb(118, 116, 116)' }}
-                        />
+                        <Box
+                            sx={{ backgroundColor: 'white', border: '1px solid rgb(118, 116, 116)', marginTop: '15px' }}>
+                            <FormControl variant="outlined" required fullWidth>
+                                <OutlinedInput
+                                    id="outlined-basic"
+                                    name='amount'
+                                    value={amount}
+                                    onChange={handleChangeAmount}
+                                />
+                            </FormControl>
+                        </Box>
                         {error && (
-                            <div
-                                style={{
-                                    color: "red",
-                                    fontSize: "25px",
-                                    marginLeft: "7px",
-                                    marginRight: "10px",
-                                    marginTop: "30px",
-                                }}
-                            >
-                                {error}
-                            </div>
+                            <div className="invalid">{error} </div>
                         )}
                         <Button variant="contained" style={{ margin: '20px 0 20px 0' }} type='submit' disabled={!!error}>
                             <span className="input-button">Swap</span>
                         </Button>
                     </AccordionDetails>
-                </form>
+                </Box>
             </Accordion>
         </div>
     );
