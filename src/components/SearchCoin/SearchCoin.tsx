@@ -1,5 +1,5 @@
 import "./SearchCoin.scss";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import TextField from "@mui/material/TextField";
 
 interface SearchCoinProps {
@@ -7,8 +7,16 @@ interface SearchCoinProps {
 }
 
 const SearchCoin = ({ setSearchText }: SearchCoinProps) => {
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchText(e.target.value);
+    const [error, setError] = useState<string>("");
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setSearchText(event.target.value);
+        const regex = new RegExp("[0-9,_:$!%-]");
+        if (regex.test(event.target.value)) {
+            setError("Invalid value");
+        } else {
+            setError("");
+        }
     };
     return (
         <div className="search-main">
@@ -21,6 +29,7 @@ const SearchCoin = ({ setSearchText }: SearchCoinProps) => {
                     variant="outlined"
                 />
             </div>
+            {error && (<div className="invalid">{error} </div>)}
         </div>
     );
 };
