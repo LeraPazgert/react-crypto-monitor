@@ -16,12 +16,13 @@ const Navigation = () => {
     dispatch(fetchCoins());
   }, [dispatch]);
 
+  
   const total: number = useMemo(() => {
     return purchasedCoins
       .map(
         (item) =>
           +(coins.find((c) => c.symbol === item.symbol)?.priceUsd || 0) *
-          parseInt(`${item.quantity}`)
+          +item.quantity
       )
       .reduce((acc, cur) => acc + cur, 0);
   }, [purchasedCoins, coins]);
@@ -64,7 +65,7 @@ const Navigation = () => {
               >
                 ({diffPercent}%)
               </span>
-              <Tooltip title='Your briefcase' arrow>
+              <Tooltip title='Your wallet' arrow>
                 <button
                   onClick={activeModal}
                   className="navigation__button"

@@ -63,7 +63,7 @@ const CoinDetailsPage = () => {
               {changePercent24Hr?.slice(0, 5)} %
             </span>{" "}
           </div>
-          <Tooltip title='Add to briefcase' arrow>
+          <Tooltip title='Add to wallet' arrow>
             <button
               className="info-details__btn"
               onClick={activeModal}
