@@ -8,7 +8,7 @@ import Modal from "../Modal/Modal";
 interface CoinAdditionModalProps {
   id?: string
   symbol?: string
-  priceUsd?: string
+  priceUsd?: string | number
   name?: string
   active: boolean
   setActive: (active: boolean) => void
@@ -27,24 +27,24 @@ const CoinAdditionModal = ({ id, symbol, name, priceUsd, active, setActive }: Co
   }, [error, active]);
 
   const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
+    setQuantity(event.target.value);
     const regex = new RegExp("[a-zA-Z,_:$!%-]");
     if (regex.test(event.target.value) || +event.target.value <= 0) {
       setError("Invalid value");
-      setQuantity(event.target.value);
     } else {
       setError("");
-      setQuantity(event.target.value);
     }
   }, [setQuantity, setError]);
 
   const handleAdd = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const addedCoin = {
-      quantity: quantity,
+      quantity: Number(quantity),
       id: uuidv4(),
       name: name,
       symbol: symbol,
       price: Number(quantity) * Number(priceUsd),
+      priceUsd: priceUsd
     };
     dispatch(coinAdd(addedCoin));
     setActive(false);
@@ -68,19 +68,7 @@ const CoinAdditionModal = ({ id, symbol, name, priceUsd, active, setActive }: Co
           <button type="submit" className="modal-content__btn" disabled={!!error}>
             Add
           </button>
-          {error && (
-            <div
-              style={{
-                color: "red",
-                fontSize: "25px",
-                marginLeft: "20px",
-                marginRight: "10px",
-                marginTop: "30px",
-              }}
-            >
-              {error}
-            </div>
-          )}
+          {error && (<div className="invalid">{error} </div>)}
         </form>
       </div>
     </Modal>

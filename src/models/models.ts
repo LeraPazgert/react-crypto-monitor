@@ -16,6 +16,7 @@ export interface ICoinCart {
   id: string;
   symbol: string;
   quantity: number;
-  price: string;
+  price: string | number;
   name: string;
+  priceUsd: string | number;
 }
