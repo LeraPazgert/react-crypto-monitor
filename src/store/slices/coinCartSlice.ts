@@ -14,16 +14,19 @@ export const coinCartSlice = createSlice({
   initialState,
   reducers: {
     coinAdd: (state, action) => {
-      const { symbol, quantity } = action.payload;
+      const { symbol, quantity, priceUsd } = action.payload;
       const existingСoin = state.purchasedCoins.find(
         (item) => item.symbol === symbol
       );
       if (!existingСoin) {
         state.purchasedCoins?.push(action.payload);
+        localStorage.setItem("coins", JSON.stringify(state.purchasedCoins));
       } else {
         existingСoin.quantity = +existingСoin.quantity + +quantity;
+        existingСoin.price = +existingСoin.quantity * +priceUsd;
+        localStorage.setItem("coins", JSON.stringify(state.purchasedCoins));
       }
-      localStorage.setItem("coins", JSON.stringify(state.purchasedCoins));
+      
     },
     coinDeleted: (state, action) => {
       state.purchasedCoins =
