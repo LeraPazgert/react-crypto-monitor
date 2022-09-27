@@ -31,4 +31,21 @@
 .modal.active {
   opacity: 1;
   pointer-events: all;
+  display: flex;
+  flex-direction: column;
+}
+.close-button {
+  color: black;
+  font-size: 30px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  background-color: white;
+  border-radius: 10%;
+  margin-bottom: -70px;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    background-color: red;
+  }
 }
