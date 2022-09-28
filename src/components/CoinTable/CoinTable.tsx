@@ -8,7 +8,7 @@ import TableRow from "../TableRow/TableRow";
 
 const CoinTable = () => {
   const dispatch = useAppDispatch();
-  const { coins } = useAppSelector((state) => state.coins);
+  const { coins } = useAppSelector(state => state.coins);
   const [limit, setLimit] = useState<number>(15);
   const [selectedCoin, setSelectedCoin] = useState<string | null | boolean>(null);
 

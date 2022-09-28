@@ -10,7 +10,7 @@ interface ModalProps {
 const Modal = ({ active, setActive, children }: ModalProps) => {
     return (
         <div className={active ? "modal active" : "modal"}>
-            <div onClick={() => setActive(false)} className='close-button'>X</div>
+            <button onClick={() => setActive(false)} className='close-button'>X</button>
             <div className={active ? "modal__content active" : "modal__content"} onClick={e => e.stopPropagation()}>
                 {children}
             </div>
