@@ -57,7 +57,7 @@ const CoinAdditionModal = ({ id, symbol, name, priceUsd, active, setActive }: Co
         <form onSubmit={handleAdd} className="modal-content__form">
           <input
             required
-            type="text"
+            type="number"
             name="quantity"
             value={quantity}
             className="modal-content__input"

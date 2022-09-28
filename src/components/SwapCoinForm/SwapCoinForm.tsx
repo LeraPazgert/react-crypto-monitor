@@ -1,5 +1,5 @@
 import "./SwapCoinForm.scss";
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import { ChangeEvent, FormEvent } from "react";
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -32,15 +32,16 @@ const SwapCoinForm = ({ purchasedCoins }: SwapCoinFormProps) => {
         purchasedCoins
             .filter(item => item.symbol === swap.from)[0]?.quantity || 0;
 
-    const handleChangeAmount = (event: ChangeEvent<HTMLInputElement>) => {
+
+    const handleChangeAmount = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
         setAmount(Number(event.target.value));
         const regex = new RegExp("[a-zA-Z,_:$!%-,]");
-        if (regex.test(event.target.value) || +event.target.value <= 0 || (availableQuantity < Number(event.target.value))) {
+        if (regex.test(event.target.value) || Number(event.target.value) <= 0 || (availableQuantity < Number(event.target.value))) {
             setError("Invalid value");
         } else {
             setError("");
         }
-    };
+    }, [availableQuantity, setError]);
 
     const handleSwap = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -123,6 +124,7 @@ const SwapCoinForm = ({ purchasedCoins }: SwapCoinFormProps) => {
                                     name='amount'
                                     value={amount}
                                     onChange={handleChangeAmount}
+                                    type='number'
                                 />
                             </FormControl>
                         </Box>
