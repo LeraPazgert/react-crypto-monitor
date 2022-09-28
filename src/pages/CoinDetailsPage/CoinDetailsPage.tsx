@@ -73,9 +73,9 @@ const CoinDetailsPage = () => {
           </Tooltip>
 
         </div>
-        <div className="info-details__chart" style={{ width: '100%', height: 500 }} >
+        {coin?.id && <div className="info-details__chart" style={{ width: '100%', height: 500 }} >
           <CoinChart id={coin?.id} />
-        </div>
+        </div>}
       </div>
       {modalActive && <CoinAdditionModal {...coin} active={modalActive} setActive={setModalActive} />}
     </div>
