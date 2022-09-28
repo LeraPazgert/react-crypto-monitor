@@ -1,17 +1,10 @@
 import './Header.scss';
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { fetchCoins } from '../../store/actionCreators';
+import { useAppSelector } from '../../hooks/redux';
 import { ICoin } from '../../models/models';
 
 const Header = () => {
-    const dispatch = useAppDispatch();
     const { coins } = useAppSelector(state => state.coins);
     const popularCoins = coins.slice(0, 3);
-
-    useEffect(() => {
-        dispatch(fetchCoins());
-    }, [dispatch]);
 
     return (
         <div className="header">

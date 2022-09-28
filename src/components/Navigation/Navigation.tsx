@@ -1,22 +1,15 @@
 import "./Navigation.scss";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { fetchCoins } from "../../store/actionCreators";
+import { useAppSelector } from "../../hooks/redux";
 import CoinCartModal from "../CoinCartModal/CoinCartModal";
 import { Tooltip } from "@mui/material";
 
 const Navigation = () => {
-  const dispatch = useAppDispatch();
   const [modalActive, setModalActive] = useState<boolean>(false);
-  const { purchasedCoins } = useAppSelector((state) => state.coinsCart);
+  const { purchasedCoins } = useAppSelector(state => state.coinsCart);
   const { coins } = useAppSelector((state) => state.coins);
 
-  useEffect(() => {
-    dispatch(fetchCoins());
-  }, [dispatch]);
-
-  
   const total: number = useMemo(() => {
     return purchasedCoins
       .map(
