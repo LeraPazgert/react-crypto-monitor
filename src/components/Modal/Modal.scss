@@ -11,6 +11,7 @@
   opacity: 0;
   pointer-events: none;
   transition: 0.5s;
+  z-index: 1;
   &__content {
     min-width: 1000px;
     min-height: 300px;
@@ -43,6 +44,7 @@
   background-color: white;
   border-radius: 10%;
   margin-bottom: -70px;
+  margin-top: 20px;
   cursor: pointer;
   &:hover {
     color: white;
